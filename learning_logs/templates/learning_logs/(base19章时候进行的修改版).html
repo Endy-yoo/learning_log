@@ -1,0 +1,23 @@
+
+<p> 
+    <a href="{% url 'learning_logs:index' %}">Learning Log</a> -
+    <a href="{% url 'learning_logs:topics' %}">Topics</a> -
+    {% if user.is_authenticated %} 
+     Hello, {{ user.username }}. 
+     <!--这里logout的代码进行了修改，以下来自GPT
+     Django 默认的 LogoutView 不接受 GET 请求，需要使用 POST 请求。
+    为什么 /users/logout/ 不能正常工作？
+    在 Django 3.1 及更高版本中，django.contrib.auth.views.LogoutView 默认只接受 POST 请求。
+    LogoutView 需要 POST 请求，用 <a href> 直接访问，会导致 405 错误（方法不允许）。
+    -->
+     <form action="{% url 'users:logout' %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Log out</button>
+    </form> 
+    {% else %} 
+    <a href="{% url 'users:register' %}">Register</a> - 
+     <a href="{% url 'users:login' %}">Log in</a> 
+    {% endif %} 
+</p> 
+{% block content %}{% endblock content %} 
+
